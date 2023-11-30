@@ -8,7 +8,7 @@
 @section('content')
 <div class="bg-gray-900 text-white w-full rounded-lg p-8">
     <div class="flex justify-between items-center">
-        <span class="text-xl font-semibold text-white">Product Data</span>
+        <span class="text-xl font-semibold text-white">User Data</span>
         <a href="{{route('user.create')}}">
             <button class="px-5 py-2 rounded-lg bg-blue-700 font-semibold text-white transition-all duration-300 active:scale-90">Add</button>
         </a>
@@ -42,14 +42,14 @@
                         <td>{{$item->email}}</td>
                         <td>{{$item->role}}</td>
                         <td class="">
-                            {{-- <a href="{{route('user.edit',['uuid' => $item->uuid])}}" class="px-4 py-2 text-white bg-yellow-400 rounded-lg font-semibold transition-all duration-300 active:scale-95">Edit</a>
-                            <a  href="{{route('user.delete',['uuid' => $item->uuid])}}" class="px-4 py-2 text-white bg-red-600 rounded-lg font-semibold transition-all duration-300 active:scale-95 cursor-pointer">Delete</a> --}}
+                            <a href="{{route('user.edit',['uuid' => $item->uuid])}}" class="px-4 py-2 text-white bg-yellow-400 rounded-lg font-semibold transition-all duration-300 active:scale-95">Edit</a>
+                            <a  href="{{route('user.delete',['uuid' => $item->uuid])}}" class="px-4 py-2 text-white bg-red-600 rounded-lg font-semibold transition-all duration-300 active:scale-95 cursor-pointer">Delete</a>
                         </td>
                     </tr>
                 @endforeach
             @else   
-                <tr  class="bg-gray-100 h-[50px]">
-                    <th colspan="7" class="text-start px-2">Data Not Found</th>
+                <tr  class="bg-gray-800 h-[50px]">
+                    <th colspan="5" class="text-start px-2">Data Not Found</th>
                 </tr>
             @endif
            </tbody>

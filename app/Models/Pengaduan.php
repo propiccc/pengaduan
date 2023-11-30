@@ -18,7 +18,9 @@ class Pengaduan extends Model
         'image',
         'status',
         'user_id',
-        'solusi_id'
+        'solusi_id',
+        'penerima_id',
+        'tipe'
     ];
 
     protected $appends = ['imagedir'];
@@ -26,10 +28,15 @@ class Pengaduan extends Model
     public function User(){
         return $this->hasOne(User::class, 'id', 'user_id');
     }
-    // public function Product(){
-    //     return $this->hasOne(Solusi::class, 'id', 'bunga_id');
-    // }
+    public function Penerima(){
+        return $this->hasOne(User::class, 'id', 'penerima_id');
+    }
 
+    public function Solusi(){
+        return $this->hasOne(Solusi::class, 'pengaduan_id', 'id');
+    }
+
+    
     public function getImagedirAttribute()
     {
         return asset('storage/ImagePengaduan/' . $this->image);

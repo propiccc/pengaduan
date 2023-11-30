@@ -1,6 +1,6 @@
 @extends('Layouts.default')
 @section('title')
-   MyFlowers | Login
+   E-ADUIN | Login
 @endsection
 @section('content')
 

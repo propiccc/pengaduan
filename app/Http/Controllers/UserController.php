@@ -28,7 +28,7 @@ class UserController extends Controller
         
         if ($validate->fails()) {
             toastr()->success('Someting Wrong, Try Again!');
-            return redirect()->route('bunga.index');
+            return redirect()->route('user.index');
         }
 
         $data = User::where('name', 'LIKE', '%' . $request->search . '%')
@@ -42,27 +42,29 @@ class UserController extends Controller
     }
 
     public function store(Request $request){
-        
         $validate = Validator::make($request->all(), [
             'name' => ['required','string','min:4'],
             'email' => ['required', 'string', 'email'],
             'no_telp' => ['required', 'integer'],
             'password' => ['required', 'string', 'min:4','confirmed'],
         ]);
-
+        
         
         if ($validate->fails()) {
             $message = [];
-            $errors = $validate->errors();
-            return view('Page.Dashboard.Admin.User.Create')->with('error', 'Someting Wrong');
+            $errors = $validate->errors()->messages();
+            foreach ($errors as $error => $val) {
+                toastr()->error($val[0], $error);
+            }
+            return view('Page.System.Admin.User.Create');
         }
-
+        
         $req = $request->all();
-
         $data = User::create([
             'name' => $req['name'],
             'email' => $req['email'],
             'no_telp' => $req['no_telp'],
+            'role' => $req['role'],
             'password' => Hash::make($req['password'])
         ]);   
 
@@ -82,10 +84,10 @@ class UserController extends Controller
         $data = User::where('uuid', $uuid)->first();
 
         if (!isset($data))  {
-            return redirect()->route('bunga.index')->withErrors(['errror' => 'Data Tidak Di Temukan']);
+            return redirect()->route('user.index')->withErrors(['errror' => 'Data Tidak Di Temukan']);
         }
         
-        return view('Page.Dashboard.Admin.User.Edit', [
+        return view('Page.System.Admin.User.Edit', [
             'data' => $data
         ]);
     }
@@ -95,12 +97,18 @@ class UserController extends Controller
         $validate = Validator::make($request->all(), [
             'name' => ['required','string','min:4'],
             'email' => ['required', 'string', 'email'],
-            'no_telp' => ['required', 'integer'],
+            'no_telp' => ['required', 'string'],
+            'role' => ['required', 'string'],
             'password' => ['nullable', 'string', 'min:4','confirmed'],
         ]);
         
         if ($validate->fails()) {
-            return redirect()->route('user.index')->withErrors(['errror' => 'Gagal Mengupdate!']);
+            $message = [];
+            $errors = $validate->errors()->messages();
+            foreach ($errors as $error => $val) {
+                toastr()->error($val[0], $error);
+            }
+            return redirect()->route('user.edit', ['uuid' => $uuid]);
         }
         
         $data = User::where('uuid', $uuid)->first();
@@ -111,8 +119,7 @@ class UserController extends Controller
          if($req['password'] == null){
             unset($req['password']);
             unset($req['password_confirnmatin']);
-         }
-
+        }
         $data->update($req);
         
         if ($data) {
@@ -126,20 +133,18 @@ class UserController extends Controller
     }
 
     public function delete($uuid){
-
         $data = User::where('uuid', $uuid)->first();
 
         if (!isset($data)) {
             toastr()->error('No Data Found!');
-            return redirect()->route('bunga.index');
+            return redirect()->route('user.index');
         }
-       
         if ($data->delete()) {
             toastr()->success('Data successfully Delete!');
-            return redirect()->route('bunga.index');
+            return redirect()->route('user.index');
         } else {
             toastr()->error('Data Falied To Delete!');
-            return redirec()->route('bunga.index');
+            return redirec()->route('user.index');
         }
         
     }

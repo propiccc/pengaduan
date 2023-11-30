@@ -1,4 +1,4 @@
-@extends('Layouts.dashboard')
+ @extends('Layouts.dashboard')
 
 @section('title')
 Dashboard | User
@@ -45,7 +45,7 @@ Dashboard | User
                         <span class="text-red-600">{{$message['password'][0]}}</span>
                     @endif
                 </div>
-                <div class="flex flex-col w-full">
+                <div class="flex flex-col w-full"> 
                     <label for="password_confirmation" class="text-lg font-semibold">Password Confirmation :</label>
                     <input class="p-2 border-[2px] border-gray-500 bg-gray-900 rounded-md" type="password" name="password_confirmation" id="password_confirmation" autocomplete="off" required>
                     @if (isset($error) && $error === true && isset($message['password_confirmation']))

@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             
+            $table->enum('tipe', ['pengaduan','konsultasi'])->default('pengaduan');
+
             $table->unsignedBiginteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  
+
+            $table->unsignedBiginteger('penerima_id')->nullable();
+            $table->foreign('penerima_id')->references('id')->on('users')->onDelete('cascade');  
 
             $table->text('tentang');
             $table->text('aduan');

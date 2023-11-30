@@ -4,7 +4,7 @@ E-ADUIN | Pengaduan
 @endsection
 @section('content')
     <div class="bg-gray-800 min-h-[calc(100vh-60px)] overflow-scroll scrollbar-none flex flex-wrap p-5 gap-5 justify-center w-full">
-        @foreach ($pengaduan as $item )
+        @foreach ($pengaduan as $item)
         {{-- * Card Start --}}  
         <div class="bg-gray-900 w-[500px] h-[300px] p-4 flex flex-col rounded-sm">
             {{--  * Header Start --}}
@@ -25,9 +25,12 @@ E-ADUIN | Pengaduan
                 {{-- * Body Ends --}}
             {{-- * Button Start --}}
             <div class="flex justify-end items-end h-full gap-x-1">
-                <a href="{{route('pengaduan.guru.detail',['uuid' => $item->uuid])}}" class="bg-purple-700 text-white px-4 py-2 font-semibold rounded-sm ">Detail</a>
-                <a href="{{route('pengaduan.guru.terima', ['uuid' => $item->uuid])}}" class="bg-blue-700 text-white px-4 py-2 font-semibold rounded-sm ">Terima</a>
-                <a href="{{route('pengaduan.guru.tolak', ['uuid' => $item->uuid])}}" class="bg-red-700 text-white px-4 py-2 font-semibold rounded-sm ">Tolak</a>
+                    <a href="{{route('pengaduan.guru.detail',['uuid' => $item->uuid])}}" class="bg-purple-700 text-white px-4 py-2 font-semibold rounded-sm ">Detail</a>
+                @if (!isset($item->Solusi) && $item->Solusi == null)
+                    <a href="{{route('solusi.guru.create',['uuid' => $item->uuid])}}" class="bg-gray-600 text-white px-4 py-2 font-semibold rounded-sm ">Berikan Solusi</a>
+                @endif
+                {{-- <button class="bg-blue-700 text-white px-4 py-2 font-semibold rounded-sm ">Terima</button>
+                <a href="{{route('pengaduan.guru.tolak', ['uuid' => $item->uuid])}}" class="bg-red-700 text-white px-4 py-2 font-semibold rounded-sm ">Tolak</a> --}}
             </div>
             {{-- * Button Ends --}}
         </div>

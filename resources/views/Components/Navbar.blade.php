@@ -16,22 +16,19 @@
           <a href="{{route('home')}}" class="block py-2 px-3 md:p-0 {{request()->path() == '/' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Home</a>
         </li>
         @if (auth()->check())
-          @if (auth()->user()->role == 'siswa') 
-            <a href="{{route('pengaduan.siswa')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'siswa/pengaduan' || request()->path() == 'guru/pengaduan'  ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Pengaduan</a>
-          @elseif(auth()->user()->role == 'guru')
-            <a href="{{route('pengaduan.siswa')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'siswa/pengaduan' || request()->path() == 'guru/pengaduan'  ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Pengaduan</a>
-          @elseif(auth()->user()->role == 'admin')
-            <a href="{{route('admin.dashboard')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'siswa/pengaduan' || request()->path() == 'guru/pengaduan'  ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Dashboard</a>
+            @if (auth()->user()->role == 'siswa') 
+              <a href="{{route('pengaduan.siswa')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'siswa/pengaduan' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Pengaduan</a>
+            @elseif(auth()->user()->role == 'guru')
+              <a href="{{route('pengaduan.guru')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'guru/pengaduan' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Pengaduan</a>
+            @elseif(auth()->user()->role == 'admin')
+              <a href="{{route('admin.dashboard')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'siswa/pengaduan' || request()->path() == 'guru/pengaduan'  ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Dashboard</a>
+              @endif
+              <a href="{{route('logout')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'logout' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Logout</a>
           @endif
-        <a href="{{route('logout')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'logout' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Logout</a>
-        @endif
         @if (!auth()->check())
           <li>
             <a href="{{route('login.view')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'login' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white d:dark:hover:text-blue-500'}}">Login</a>
           </li>
-          {{-- <li>
-            <a href="{{route('register.view')}}" class="block py-2 px-3 md:p-0 {{request()->path() == 'register' ? 'text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500' : 'text-white py-2 px-3 md:p-0 d:dark:hover:text-blue-500'}}">Register</a>
-          </li> --}}
         @endif
       </ul>
     </div>

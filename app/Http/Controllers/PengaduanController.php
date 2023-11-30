@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Solusi;
 use App\Models\Pengaduan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PengaduanController extends Controller
 {
     // * Pengaduan front start
-
     public function publicPengaduan(Request $request){
 
         $validate = Validator::make($request->all(), [
             'tentang' => ['required','string','min:5'],
-            'tkp' => ['required', 'string'],
             'aduan' => ['required', 'string'],
             'image' => ['required','file', 'mimes:jpg,png,svg'],
+            'tipe' => ['required', 'string']
         ]);
 
         if ($validate->fails()) {
@@ -41,10 +42,10 @@ class PengaduanController extends Controller
 
         $data = Pengaduan::create([
             'tentang' => $request->tentang,
-            'tkp' => $request->tkp,
             'aduan' => $request->aduan,
             'image' => $image_name,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'tipe' => $request->tipe
         ]);
         
         if($data){
@@ -56,9 +57,20 @@ class PengaduanController extends Controller
     }
     // * Pengaduan front end
     
+    public function detail($uuid){
+        $data = Pengaduan::where('uuid', $uuid)->first();
+
+        if (!isset($data))  {
+            return redirect()->route('pengaduan.index')->withErrors(['errror' => 'Data Tidak Di Temukan']);
+        }
+
+        return view('Page.System.Admin.Pengaduan.Detail', [
+            'pengaduan' => $data
+        ]);
+    }
     public function index(){
-        $data = Pengaduan::all();
-        return view('Page.Dashboard.Admin.User.Index', [
+        $data = Pengaduan::get();
+        return view('Page.System.Admin.Pengaduan.Index', [
             'pengaduan' => $data
         ]);
     }
@@ -76,12 +88,12 @@ class PengaduanController extends Controller
         
         if ($validate->fails()) {
             toastr()->success('Someting Wrong, Try Again!');
-            return redirect()->route('bunga.index');
+            return redirect()->route('pengaduan.index');
         }
 
         $data = Pengaduan::where('name', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('role', 'LIKE', '%' . $request->search . '%')
-        ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+        ->orWhere('aduan', 'LIKE', '%' . $request->search . '%')
+        ->orWhere('keterangan', 'LIKE', '%' . $request->search . '%')
         ->get();
 
         return view('Page.Dashboard.Admin.User.Index', [
@@ -133,7 +145,7 @@ class PengaduanController extends Controller
         $data = Pengaduan::where('uuid', $uuid)->first();
 
         if (!isset($data))  {
-            return redirect()->route('bunga.index')->withErrors(['errror' => 'Data Tidak Di Temukan']);
+            return redirect()->route('pengaduan.index')->withErrors(['errror' => 'Data Tidak Di Temukan']);
         }
         
         return view('Page.Dashboard.Admin.User.Edit', [
@@ -178,18 +190,24 @@ class PengaduanController extends Controller
 
     public function delete($uuid){
         $data = Pengaduan::where('uuid', $uuid)->first();
-
+        if(isset($data->Solusi)){
+            $solusi = Solusi::where('uuid', $data->Solusi->uuid)->first();
+            Storage::delete("/public/ImageSolusi/" . $solusi->image);
+            $solusi->delete();
+        }
+        Storage::delete("/public/ImagePengaduan/" . $data->image);
+    
         if (!isset($data)) {
             toastr()->error('No Data Found!');
-            return redirect()->route('bunga.index');
+            return redirect()->route('pengaduan.index');
         }
        
         if ($data->delete()) {
             toastr()->success('Data successfully Delete!');
-            return redirect()->route('bunga.index');
+            return redirect()->route('pengaduan.index');
         } else {
             toastr()->error('Data Falied To Delete!');
-            return redirec()->route('bunga.index');
+            return redirec()->route('pengaduan.index');
         }
     }
 }

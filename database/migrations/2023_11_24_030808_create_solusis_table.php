@@ -15,15 +15,18 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             
-            $table->string('image');
+            $table->string('image')->nullable();
+
             $table->text('solusi');
 
+            $table->enum('tipe', ['pengaduan','konsultasi'])->default('pengaduan');
+            
             $table->unsignedBiginteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');  
 
             $table->unsignedBiginteger('pengaduan_id');
             $table->foreign('pengaduan_id')->references('id')->on('pengaduans')->onDelete('restrict');  
-            
+
             $table->timestamps();
         });
     }

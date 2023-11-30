@@ -35,14 +35,16 @@
         <form action="{{route('public.pengaduan')}}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-y-2">
             @csrf
             @method('POST')
-
             <div class="flex flex-col">
-                <label for="aduan" class="text-xl font-semibold text-white mb-2">Tentang : </label>
-                <input id="aduan" type="text" name="tentang" class="p-2 bg-transparent border-gray-400 border-2 focus:border-white text-white focus:outline-none" autocomplete="off" required>
+                <label for="tentang" class="text-xl font-semibold text-white mb-2">Tentang : </label>
+                <input id="tentang" type="text" name="tentang" class="p-2 bg-transparent border-gray-400 border-2 focus:border-white text-white focus:outline-none" autocomplete="off" required>
             </div>
             <div class="flex flex-col">
-                <label for="tkp" class="text-xl font-semibold text-white mb-2">Tempat Kejadian : </label>
-                <input id="tkp" type="text" name="tkp" class="p-2 bg-transparent border-gray-400 border-2 focus:border-white text-white focus:outline-none" autocomplete="off" required>
+                <label for="tipe" class="text-xl font-semibold text-white mb-2">Kategori : </label>
+                <select id="tipe" type="text" name="tipe" class="p-2 bg-transparent border-gray-400 border-2 focus:border-white text-white focus:outline-none" autocomplete="off" required>
+                    <option value="konsultasi" class="p-2 text-white font-semibold text-lg bg-gray-800">Konsultasi</option>
+                    <option value="pengaduan" class="p-2 text-white font-semibold text-lg bg-gray-800" selected>Pengaduan</option>
+                </select>
             </div>
             <div class="flex flex-col">
                 <label for="aduan" class="text-xl font-semibold text-white mb-2">Pengaduan : </label>

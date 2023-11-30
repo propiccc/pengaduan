@@ -26,44 +26,45 @@
                     <span class="text-xl font-semibold">Pengaduan :</span>
                     <p class="text-xl">
                         {{$pengaduan->aduan}}
-                        {{$pengaduan->tipe}}
                     </p>
                 </div>
+                <div class="h-[2px] bg-gray-400 my-5"></div>
             </div>
             {{-- * Body End --}}
-            {{-- * Solusi Start --}}
-            @if (isset($pengaduan->Solusi) && $pengaduan->Solusi != null )
-            <div class="">
-                <div class="h-[2px] bg-gray-400 my-5"></div>
-                @if ($pengaduan->image != null)
-                 <div class="flex flex-col">
-                     <span class="text-lg font-semibold text-white mb-1">Image Solusi :</span>
-                     <a href="{{$pengaduan->Solusi->imagedir}}" target="_blank">
-                         <img src="{{$pengaduan->Solusi->imagedir}}" alt="" class="w-full h-[300px] md:w-[600px] md:h-[400px] object-cover p-2 bg-gray-800 rounded-sm">
-                     </a>
-                     <div class="h-[1px] bg-gray-800 my-5"></div>
-                 </div>
-                @endif
-                <div class="px-4 text-white flex flex-col min-h-[300px]">
-                    <span class="text-xl font-semibold">Solusi :</span>
-                    <p class="text-xl">
-                        {{$pengaduan->Solusi->solusi}}
-                    </p>
+
+            {{-- * Form Solusi Start --}}
+            <div class="flex flex-col">
+                <div class="flex flex-col">
+                    <form action="{{route('solusi.guru.store',['uuid' => $pengaduan->uuid])}}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-y-2">
+                        @csrf
+                        @method('POST')
+                        <div class="flex flex-col">
+                            <label for="solusi" class="text-xl font-semibold text-white mb-2">Solusi : </label>
+                            <textarea id="solusi" type="text" name="solusi" class="p-2 bg-transparent border-gray-400 border-2 focus:border-white text-white focus:outline-none" autocomplete="off" required></textarea>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="flex gap-x-2">
+                                <label for="image" class="text-xl font-semibold text-white">Image Solusi : </label>
+                                <span class="text-gray-200 my-1 text-end">
+                                    <span class="text-red-600">*</span>
+                                    Jika Tidak Ada Image Maka Jangan Di Isi
+                                </span>
+                            </div>
+                            <input id="image" type="file" name="image" class="p-2 bg-transparent border-gray-400 border-2 focus:border-white text-white focus:outline-none">
+                        </div>
+                        <div class="flex flex-col">
+                            <button class="border-2 p-4 font-semibold text-white hover:bg-white transition-all duration-500 mt-2 hover:text-black active:scale-95">SUBMIT</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            @endif
-         {{-- * Solusi End --}}
+            {{-- * Form Solusi End --}}
 
             {{-- * Actions Start --}}
             <div class="">
                 <div class="h-[2px] bg-gray-400 my-5"></div>
                 <div class="flex justify-between">
-                    <a href="{{route('pengaduan.siswa')}}" class="font-semibold text-lg hover:text-white text-gray-600"><-- Kembali</a>
-                    @if ($pengaduan->status == 'pending')
-                        <a href="{{route('pengaduan.siswa.delete',['uuid' => $pengaduan->uuid])}}">
-                            <button class="bg-red-700 text-white px-4 py-2 font-semibold rounded-sm">Hapus</button>
-                        </a>
-                    @endif
+                    <a href="{{route('solusi.guru')}}" class="font-semibold text-lg hover:text-white text-gray-600"><-- Kembali</a>
                 </div>
             </div>
             {{-- * Actions End --}}

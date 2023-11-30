@@ -37,4 +37,11 @@ class PengaduanSiswaController extends Controller
             'pengaduan' => $pengaduan
         ]);
     }
+
+    public function solusiSiswa(){
+        $data = Pengaduan::where(['user_id'=> Auth::user()->id, 'status' => 'terima'])->get();
+        return view('Page.System.Siswa.Solusi.Index', [
+            'pengaduan' => $data
+        ]);
+    }
 }
